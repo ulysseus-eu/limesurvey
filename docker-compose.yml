@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+    limesurvey:
+        # force version
+        image: "acspri/limesurvey:5.1.9"
+        restart: unless-stopped
+        container_name: limesurvey_ulysseus_compose
+        # Volumes a monter : 
+        # cf https://github.com/adamzammit/limesurvey-docker/blob/master/docker-compose.yml#L16
+        volumes:
+            - /var/www/limesurvey/plugins:/var/www/plugins
+            - /var/www/limesurvey/upload:/var/www/html/upload
+            - /var/www/limesurvey/config:/var/www/html/application/config
+        ports:
+            - "4278:80"
+        secrets:
+            - ls_admin_pw
+            - ls_db_pw
+        environment:
+            LIMESURVEY_DB_HOST: ${LIMESURVEY_DB_HOST}
+            LIMESURVEY_DB_USER: ${LIMESURVEY_DB_USER}
+            LIMESURVEY_DB_PASSWORD_FILE: '/run/secrets/ls_db_pw'
+            LIMESURVEY_ADMIN_USER: ${LIMESURVEY_ADMIN_USER}
+            LIMESURVEY_ADMIN_PASSWORD_FILE: '/run/secrets/ls_admin_pw'
+secrets:
+    ls_admin_pw : 
+        file : ${LS_ADMIN_PW}
+    ls_db_pw : 
+        file : ${LS_DB_PW}
