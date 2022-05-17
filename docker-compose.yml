@@ -1,13 +1,10 @@
-version: '3.3'
+version: '3'
 
 services:
     limesurvey:
-        # force version
         image: "acspri/limesurvey:5.1.9"
         restart: unless-stopped
         container_name: limesurvey_ulysseus_compose
-        # Volumes a monter : 
-        # cf https://github.com/adamzammit/limesurvey-docker/blob/master/docker-compose.yml#L16
         volumes:
             - /var/www/limesurvey/plugins:/var/www/plugins
             - /var/www/limesurvey/upload:/var/www/html/upload
